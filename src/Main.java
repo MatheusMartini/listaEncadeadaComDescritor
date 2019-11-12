@@ -56,7 +56,7 @@ public class Main {
                         nome = tc.next();
                         if (list.acharPosicaoNome(nome)){
                             e.ler();
-                            list.inserirAposNome(e);
+                            list.inserirAposNome(e, nome);
                         }else {
                             System.out.println("Nome nao encontrado!");
                         }

@@ -42,13 +42,21 @@ public class Lista {
     }
 
     //insere um novo elemento apos o nome
-    public void inserirAposNome(Elemento pessoa){
+    public void inserirAposNome(Elemento pessoa, String nome) {
         Nodo aposNome = new Nodo(pessoa);
         Nodo aux = primeiro;
 
-        while(aux != null){
-            aux.proximo = aposNome;
-
+        while (aux != null) {
+            if (nome.equals(aux.getPessoa().getNome())) {
+                aposNome.proximo = aux.proximo;
+                aux.proximo = aposNome;
+                this.qtd++;
+                if (aposNome.proximo == null) {
+                    this.ultimo = aposNome;
+                }
+                break;
+            }
+            aux = aux.proximo;
         }
 
     }
@@ -56,10 +64,12 @@ public class Lista {
     //acha se o nome exite e retorar para inseirir o outro
     public boolean acharPosicaoNome(String nome) {
         Nodo aux = primeiro;
-        if (nome.equals(aux.getPessoa().getNome())) {
+        while (aux != null) {
             if (aux.getPessoa().getNome().equals(nome)) {
                 return true;
             }
+            aux = aux.proximo;
+
         }
         return false;
     }
