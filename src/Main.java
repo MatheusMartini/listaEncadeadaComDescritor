@@ -2,56 +2,99 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        Lista list = new Lista();
 
-        String s;
-        char op, ch = 'e';
-        int dado = 0;
+        int op;
 
-        Elemento lista = new Elemento();
         Scanner tc = new Scanner(System.in);
 
         do {
-            System.out.print("[I]ncluir, [C]onsultar ou [F]im: ");
-            do {
-                s = tc.nextLine();
-                op = s.charAt(0);
-                op = Character.toLowerCase(op);
-            } while (op != 'i' && op != 'c' && op != 'f');
+            System.out.println("\n1 para add no inicio" +
+                    "\n2 para add no fim" +
+                    "\n3 para listar " +
+                    "\n4 para rem no fim" +
+                    "\n5 para rem no inicio" +
+                    "\n6 incluir apos um nome" +
+                    "\n7 consultar por nome" +
+                    "\n8 excluir por codigo" +
+                    "\n9 listar nomes com medias finais" +
+                    "\n10 para sair ");
 
-            if (op == 'i' || op == 'c') {
-                do {
-                    System.out.print("[E]squerda ou [D]ireita: ");
-                    s = tc.nextLine();
-                    ch = s.charAt(0);
-                    ch = Character.toLowerCase(ch);
-                } while (ch != 'e' && ch != 'd');
-            }
-
+            op = Elemento.lerOp();
             switch (op) {
-                case 'i': System.out.print("Digite um inteiro: ");{
-                    s = tc.nextLine();
-                    dado = Integer.parseInt(s);
-                    if (dado != 0) {
-                        if (ch == 'e') {
-                            lista.inserirListaEsquerda(dado);
-                        }
-                        else {
-                            lista.inserirListaDireita(dado);
+                case 1: {
+                    Elemento e = new Elemento();
+                    e.ler();
+                    list.inserirPrimeiro(e);
+                    break;
+                }
+                case 2: {
+                    Elemento e = new Elemento();
+                    e.ler();
+                    list.inserirFinal(e);
+                    break;
+                }
+                case 3: {
+                    System.out.println(list.imprimirLista());
+                    break;
+                }
+                case 4: {
+                    list.removerFinal();
+                    break;
+                }
+                case 5: {
+                    list.removerInicio();
+                    break;
+                }
+                case 6: {
+                    if (list.listaVazia()) {
+                        System.out.println("Lista vazia!");
+                    }else {
+                        Elemento e = new Elemento();
+                        System.out.println("Digite o nome para incluir após:");
+                        String nome;
+                        nome = tc.next();
+                        if (list.acharPosicaoNome(nome)){
+                            e.ler();
+                            list.inserirAposNome(e);
+                        }else {
+                            System.out.println("Nome nao encontrado!");
                         }
                     }
                     break;
                 }
-
-                case 'c': if (ch == 'e') {
-                    dado = lista.consultarListaEsquerda();
-                }else {
-                    dado = lista.consultarListaDireita();
-                }System.out.println("Dado Consultado: " + dado);
+                case 7: {
+                    if (list.listaVazia()) {
+                        System.out.println("Lista vazia");
+                    } else {
+                        list.pesquisarNome();
+                    }
                     break;
+                }
+                case 8: {
+                    if (list.listaVazia()) {
+                        System.out.println("Lista vazia");
+                    } else {
+                        System.out.println("Digite o codigo para excluir da lista:");
+                        int cod = tc.nextInt();
+                        if (list.removerPorCodigo(cod)) {
+                            System.out.println(" Código de numero " + cod + " foi removido!");
+                        } else {
+                            System.out.println("Nao foi possivel remover a pessoa de codigo " + cod);
+                        }
+                    }
+                    break;
+                }
+                case 9: {
+                    if (list.listaVazia()) {
+                        System.out.println("Lista vazia!");
+                    } else {
+                        list.imprimirNotasFinais();
+                    }
+                    break;
+                }
             }
+        } while (op != 10);//sair do programa
 
-        } while (op != 'f');
-        lista.imprimirLista();
-        System.exit(0);
     }
 }
